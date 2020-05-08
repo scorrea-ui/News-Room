@@ -8,9 +8,11 @@ const mapStateToProps = (state) => ({
   isLoading: state.loadingInProgress,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  getArticles: (input) => dispatch(getArticles(input)),
-  clearArticles: () => dispatch(clearArticles()),
-});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getArticles: () => dispatch(getArticles()),
+    clearArticles: () => dispatch(clearArticles()),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(News);
