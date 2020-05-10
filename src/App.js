@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import SideMenu from "./components/SideMenu";
 import News from "./components/News";
+import { Switch, Route } from "react-router-dom";
 
 class App extends Component {
   render() {
@@ -15,10 +16,33 @@ class App extends Component {
       }
     `;
 
+    const categories = [
+      { key: null },
+      { key: "politica" },
+      { key: "internacionales" },
+      { key: "tecnologia" },
+      { key: "espectaculos" },
+      { key: "deportes" },
+      { key: "diseño" },
+    ];
+
     return (
       <Container>
         <SideMenu />
-        <News />
+        <Switch>
+          {categories.map((category) => {
+            return (
+              <Route
+                key={category.key}
+                path={`${
+                  category.key ? "/news/category/" + category.key : "/"
+                }`}
+                exact
+                render={(props) => <News {...props} category={category.key} />}
+              />
+            );
+          })}
+        </Switch>
       </Container>
     );
   }

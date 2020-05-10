@@ -1,74 +1,93 @@
 import React from "react";
 import styled from "styled-components";
+import moment from "moment";
 
-const NewsItem = () => {
-  const Container = styled.div`
-    background: white;
-    border: 0.05rem solid #ededf0;
-    box-shadow: 0 1.4rem 1.8rem -0.8rem rgba(0, 0, 0, 0.25);
-    border-radius: 0.32rem;
-    overflow: hidden;
-    min-width: 100%;
-  `;
+const Container = styled.div`
+  align-items: stretch;
+  background: white;
+  border: 0.05rem solid #ededf0;
+  box-shadow: 0 1.4rem 1.8rem -0.8rem rgba(0, 0, 0, 0.25);
+  border-radius: 0.32rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
 
-  const Content = styled.div`
-    padding: 1rem 1.4rem;
-    color: black;
-  `;
+  @media (min-width: 768px) {
+    margin-right: 20px;
+    margin-bottom: 20px;
+    width: calc(48% - 20px);
+  }
 
-  const Title = styled.h3`
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #3b4359;
-  `;
+  @media (min-width: 1280px) {
+    width: 30%;
+  }
+`;
 
-  const Time = styled.p`
-    margin-top: 0.5rem;
-    font-weight: 400;
-    font-size: 1.2rem;
-    color: #82899e;
-  `;
+const Content = styled.div`
+  color: black;
+  height: 100%;
+  min-height: 8rem;
+  padding: 1rem 1.4rem;
+`;
 
-  const Link = styled.a`
-    display: block;
-    height: auto;
-    margin: 2rem;
-    text-decoration: none;
-    width: 100%;
-    @media (min-width: 768px) {
-      width: 50%;
-    }
-    @media (min-width: 1280px) {
-      width: 25%;
-    }
-  `;
+const Title = styled.h3`
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #3b4359;
+`;
 
-  const NewsImage = styled.img`
-    display: block;
-    width: 100%;
-    height: 100%;
-  `;
+const News = styled.a`
+  background-color: #000;
+  border-radius: 1.4rem;
+  color: #fff;
+  display: block;
+  padding: 0.5rem;
+  text-align: center;
+  text-decoration: none;
+  max-width: 8rem;
+`;
+
+const Time = styled.p`
+  color: #82899e;
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-top: 0.5rem;
+`;
+
+const Link = styled.a`
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  width: 100%;
+`;
+
+const NewsImage = styled.img`
+  height: 100%;
+  max-height: 10rem;
+  width: 100%;
+`;
+
+const NewsItem = (props) => {
+  const { title, img, url, source, date } = props;
 
   return (
-    <Link href='#'>
-      <Container>
-        <NewsImage
-          src='https://res.cloudinary.com/canillitappimg/image/fetch/h_200/https://www.lapoliticaonline.com/files/image/63/63321/5eb472adacd7d_600_315!.jpg?s=1241c66d675703280c7e0ad56f3a9a60&d=1588884294'
-          alt='Some kind of thing'
-        ></NewsImage>
+    <Container>
+      <Link href={url}>
+        <NewsImage src={img} alt={title}></NewsImage>
         <Content>
-          <Title>
-            Italia: Dos equipos de fútbol de la Serie A confirman 10 casos de
-            coronavirus
-          </Title>
+          <Title>{title}</Title>
           <Time>
-            <span>17:05</span>
-            <span>|</span>
-            <span>Telam</span>
+            <span>Posted:</span>
+            <span>{moment.duration(date).humanize()} ago | </span>
+            <span>{source || "N/A"}</span>
           </Time>
+          <News href={url}>Learn More</News>
         </Content>
-      </Container>
-    </Link>
+      </Link>
+    </Container>
   );
 };
 

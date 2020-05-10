@@ -1,4 +1,5 @@
 import * as type from "./types";
+import moment from "moment";
 
 // Action Creators
 export const loadingError = (bool) => ({
@@ -20,13 +21,17 @@ export const clearArticles = () => ({
   type: type.CLEAR_ARTICLES,
 });
 
-export const getArticles = () => {
+export const getLatestArticles = () => {
   return (dispatch) => {
     dispatch(clearArticles());
     dispatch(loadingError(false));
     dispatch(loadingInProgress(true));
 
-    fetch(`https://api.canillitapp.com/latest/2020-04-29`)
+    fetch(
+      `https://api.canillitapp.com/latest/${moment(new Date()).format(
+        "YYYY-MM-DD"
+      )}`
+    )
       .then((response) => {
         if (!response.ok) {
           throw Error(response.statusText);
@@ -35,8 +40,33 @@ export const getArticles = () => {
         dispatch(loadingInProgress(false));
         return response;
       })
-      .then((response) => response.json())
-      .then((articles) => dispatch(loadingSuccess(articles)))
+      .then((response) => {
+        return response.json();
+      })
+      .then((articles) => dispatch(loadingSuccess(articles.splice(0, 10))))
+      .catch(() => dispatch(loadingError(true)));
+  };
+};
+
+export const getArticlesByCategory = (category) => {
+  return (dispatch) => {
+    dispatch(clearArticles());
+    dispatch(loadingError(false));
+    dispatch(loadingInProgress(true));
+
+    fetch(`https://api.canillitapp.com/news/category/${category}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+
+        dispatch(loadingInProgress(false));
+        return response;
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((articles) => dispatch(loadingSuccess(articles.splice(0, 10))))
       .catch(() => dispatch(loadingError(true)));
   };
 };
