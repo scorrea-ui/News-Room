@@ -76,6 +76,9 @@ const Loader = styled.div`
 `;
 
 class News extends React.Component {
+  async componentDidMount() {
+    await this.props.getLatestArticles();
+  }
   async componentDidUpdate(prevProps) {
     if (prevProps.location !== this.props.location) {
       if (
