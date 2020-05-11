@@ -88,8 +88,6 @@ class News extends React.Component {
         if (searchResults) this.setState({ articles: searchResults });
       } else if (this.props.match.params.categoryID !== undefined) {
         this.props.getArticlesByCategory(this.props.match.params.categoryID);
-      } else if (this.props.location.pathname === "/") {
-        await this.props.getLatestArticles();
       } else {
         await this.props.getLatestArticles();
       }

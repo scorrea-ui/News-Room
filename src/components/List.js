@@ -34,7 +34,7 @@ const List = () => {
           <Icon>
             <FontAwesomeIcon icon='clock' />
           </Icon>
-          <Styledlink to='/latest'>Home</Styledlink>
+          <Styledlink to='/'>Home</Styledlink>
           <ListUL>
             <ListItem>
               <Icon>
