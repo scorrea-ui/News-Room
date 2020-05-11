@@ -21,17 +21,16 @@ export const clearArticles = () => ({
   type: type.CLEAR_ARTICLES,
 });
 
+// Local Variable
+const BASE_URL = "https://api.canillitapp.com/";
+
 export const getLatestArticles = () => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(clearArticles());
     dispatch(loadingError(false));
     dispatch(loadingInProgress(true));
 
-    fetch(
-      `https://api.canillitapp.com/latest/${moment(new Date()).format(
-        "YYYY-MM-DD"
-      )}`
-    )
+    await fetch(`${BASE_URL}/latest/${moment(new Date()).format("YYYY-MM-DD")}`)
       .then((response) => {
         if (!response.ok) {
           throw Error(response.statusText);
@@ -49,12 +48,12 @@ export const getLatestArticles = () => {
 };
 
 export const getArticlesByCategory = (category) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(clearArticles());
     dispatch(loadingError(false));
     dispatch(loadingInProgress(true));
 
-    fetch(`https://api.canillitapp.com/news/category/${category}`)
+    await fetch(`${BASE_URL}/news/category/${category}`)
       .then((response) => {
         if (!response.ok) {
           throw Error(response.statusText);
@@ -65,6 +64,25 @@ export const getArticlesByCategory = (category) => {
       })
       .then((response) => {
         return response.json();
+      })
+      .then((articles) => dispatch(loadingSuccess(articles.splice(0, 10))))
+      .catch(() => dispatch(loadingError(true)));
+  };
+};
+
+export const getSearch = (searchParams) => {
+  return async (dispatch) => {
+    await fetch(`${BASE_URL}/search/${searchParams}`)
+      .then((data) => {
+        if (!data.ok) {
+          throw Error(data.statusText);
+        }
+
+        dispatch(loadingInProgress(false));
+        return data;
+      })
+      .then((data) => {
+        return data.json();
       })
       .then((articles) => dispatch(loadingSuccess(articles.splice(0, 10))))
       .catch(() => dispatch(loadingError(true)));

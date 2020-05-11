@@ -7,17 +7,19 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faBullhorn } from "@fortawesome/free-solid-svg-icons";
 
 import List from "./List";
+import Search from "./Search";
 
 library.add(faBullhorn);
 
 const Container = styled.aside`
-  display: flex;
+  align-items: center;
   background: #222;
+  display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
-  align-items: strech;
 
-  @media (min-width: 60rem) {
-    align-content: flex-start;
+  @media (min-width: 50rem) {
+    width: 25%;
   }
 `;
 
@@ -60,6 +62,7 @@ const SideMenu = () => {
         <Title>News Room</Title>
       </Wrapper>
       <List />
+      <Search />
     </Container>
   );
 };

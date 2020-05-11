@@ -34,47 +34,43 @@ const List = () => {
           <Icon>
             <FontAwesomeIcon icon='clock' />
           </Icon>
-          <Styledlink to='/'>Home</Styledlink>
+          <Styledlink to='/latest'>Home</Styledlink>
           <ListUL>
             <ListItem>
               <Icon>
                 <FontAwesomeIcon icon='briefcase' />
               </Icon>
-              <Styledlink to='/news/category/politica'>Politica</Styledlink>
+              <Styledlink to='/politica/1'>Politica</Styledlink>
             </ListItem>
             <ListItem>
               <Icon>
                 <FontAwesomeIcon icon='film' />
               </Icon>
-              <Styledlink to='/news/category/internacionales'>
-                Internacionales
-              </Styledlink>
+              <Styledlink to='/internacionales/2'>Internacionales</Styledlink>
             </ListItem>
             <ListItem>
               <Icon>
                 <FontAwesomeIcon icon='star' />
               </Icon>
-              <Styledlink to='/news/category/espectaculos'>
-                Espectaculos
-              </Styledlink>
+              <Styledlink to='/espectaculos/3'>Espectaculos</Styledlink>
             </ListItem>
             <ListItem>
               <Icon>
                 <FontAwesomeIcon icon='flask' />
               </Icon>
-              <Styledlink to='/news/category/deportes'>Deportes</Styledlink>
+              <Styledlink to='/deportes/4'>Deportes</Styledlink>
             </ListItem>
             <ListItem>
               <Icon>
                 <FontAwesomeIcon icon='trophy' />
               </Icon>
-              <Styledlink to='/news/category/diseño'>Diseño</Styledlink>
+              <Styledlink to='/diseño/5'>Diseño</Styledlink>
             </ListItem>
             <ListItem>
               <Icon>
                 <FontAwesomeIcon icon='microchip' />
               </Icon>
-              <Styledlink to='/news/category/tecnologia'>Tecnologia</Styledlink>
+              <Styledlink to='/tecnologia/6'>Tecnologia</Styledlink>
             </ListItem>
           </ListUL>
         </ListItem>

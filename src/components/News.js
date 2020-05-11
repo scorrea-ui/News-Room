@@ -6,8 +6,10 @@ import {
   getLatestArticles,
   clearArticles,
   getArticlesByCategory,
+  getSearch,
 } from "../actions";
 import PropTypes from "prop-types";
+import Search from "./Search";
 
 const Container = styled.main`
   display: flex;
@@ -74,33 +76,26 @@ const Loader = styled.div`
 `;
 
 class News extends React.Component {
-  componentDidMount() {
-    switch (this.props.category) {
-      case "politica":
-        this.props.getArticlesByCategory(1);
-        break;
-      case "internacionales":
-        this.props.getArticlesByCategory(2);
-        break;
-      case "tecnologia":
-        this.props.getArticlesByCategory(3);
-        break;
-      case "espectaculos":
-        this.props.getArticlesByCategory(4);
-        break;
-      case "deportes":
-        this.props.getArticlesByCategory(5);
-        break;
-      case "diseño":
-        this.props.getArticlesByCategory(6);
-        break;
-      default:
-        this.props.getLatestArticles();
+  async componentDidUpdate(prevProps) {
+    if (prevProps.location !== this.props.location) {
+      if (
+        this.props.location.pathname === "/search" ||
+        this.props.location.searchParams
+      ) {
+        const searchResults = await this.props.getSearch(
+          this.props.location.searchParams
+        );
+        if (searchResults) this.setState({ articles: searchResults });
+      } else if (this.props.match.params.categoryID !== undefined) {
+        this.props.getArticlesByCategory(this.props.match.params.categoryID);
+      } else {
+        await this.props.getLatestArticles();
+      }
     }
   }
 
   render() {
-    const { hasError, isLoading } = this.props;
+    const { hasError, isLoading, articles } = this.props;
 
     if (hasError) {
       return <h1>Sorry! There was an error loading the articles.</h1>;
@@ -110,9 +105,31 @@ class News extends React.Component {
       return <Loader></Loader>;
     }
 
+    if (articles.length <= 0) {
+      return (
+        <div id='notfound'>
+          <div className='notfound'>
+            <div className='notfound-404'>
+              <h1>
+                <span></span>
+              </h1>
+            </div>
+            <h2>No results</h2>
+            <p>
+              Sorry but the results you are looking for does not exist, have
+              been removed. name changed or is temporarily unavailable
+            </p>
+            <div className='notfound-search'>
+              <Search />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <Container>
-        {this.props.articles.map((article) => {
+        {articles.map((article) => {
           return (
             <NewsItem
               category={article.category}
@@ -145,6 +162,7 @@ const mapDispatchToProps = (dispatch) => {
     getArticlesByCategory: (category) =>
       dispatch(getArticlesByCategory(category)),
     clearArticles: () => dispatch(clearArticles()),
+    getSearch: (data) => dispatch(getSearch(data)),
   };
 };
 

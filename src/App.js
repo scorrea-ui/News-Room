@@ -16,32 +16,14 @@ class App extends Component {
       }
     `;
 
-    const categories = [
-      { key: null },
-      { key: "politica" },
-      { key: "internacionales" },
-      { key: "tecnologia" },
-      { key: "espectaculos" },
-      { key: "deportes" },
-      { key: "diseño" },
-    ];
-
     return (
       <Container>
         <SideMenu />
         <Switch>
-          {categories.map((category) => {
-            return (
-              <Route
-                key={category.key}
-                path={`${
-                  category.key ? "/news/category/" + category.key : "/"
-                }`}
-                exact
-                render={(props) => <News {...props} category={category.key} />}
-              />
-            );
-          })}
+          <Route
+            path='/:category?/:categoryID?'
+            render={(props) => <News {...props} />}
+          />
         </Switch>
       </Container>
     );
